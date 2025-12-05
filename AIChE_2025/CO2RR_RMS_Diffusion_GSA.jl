@@ -130,18 +130,18 @@ function run_co2_reduction_simulation(params::Vector{Float64})
     println(sol.t[end]);
     println(sol.retcode);
 
-    # sol is the solution object
-    return sol
+    # Return sol and all the variables needed in later cells
+    return sol, domainboundarylayer, domaincat, interfaces, p, diffusionlayer, V_res
 end
 
 
-# %%
-
-sol = run_co2_reduction_simulation(Float64[])
-sol
 
 # %%
-ssys = SystemSimulation(sol,(domainboundarylayer,domaincat,), interfaces,p);
+
+sol, domainboundarylayer, domaincat, interfaces, p, diffusionlayer, V_res = run_co2_reduction_simulation(Float64[])
+
+# %%
+ssys = SystemSimulation(sol,(domainboundarylayer,domaincat,), interfaces, p);
 
 # %%
 """
