@@ -39,6 +39,7 @@ using ReactionMechanismSimulator
 
 # %%
 outdict = readinput("Cu_C2_042925.rms")
+model_name = "Cu(111)"
 
 # %%
 boundarylayerspcs = outdict["gas"]["Species"]
@@ -135,7 +136,9 @@ end
 
 
 # %%
-sol = run_co2_reduction_simulation([])
+
+sol = run_co2_reduction_simulation(Float64[])
+sol
 
 # %%
 ssys = SystemSimulation(sol,(domainboundarylayer,domaincat,), interfaces,p);
@@ -283,7 +286,7 @@ yscale("log")
 xlim(1e-3, 1e3)
 ylim(1e-18, 1e-1)
 legend(loc="upper left", bbox_to_anchor=(0, 0.9), fontsize=12, ncol=2)
-title("Ag111@-1.0V vs. R.H.E., d = 1 mm")
+title("$model_name@-1.0V vs. R.H.E., d = 1 mm")
 gcf()
 
 # %%
@@ -418,7 +421,7 @@ xscale("log")
 yscale("log")
 xlim(1e-8, 2e3)
 ylim(1e-16, 5)
-title("Liquid-phase Mole Fractions vs. Time on Ag111@-1.0V")
+title("Liquid-phase Mole Fractions vs. Time on $model_name@-1.0V")
 gcf()
 
 # %%
@@ -428,7 +431,7 @@ xscale("log")
 yscale("log")
 xlim(1e-12, 1e3)
 ylim(1e-20, 1e-1)
-title("Cu111@-1.0V vs. R.H.E., d = 1 mm")
+title("$model_name@-1.0V vs. R.H.E., d = 1 mm")
 gcf()
 
 # %%
@@ -438,7 +441,7 @@ xscale("log")
 yscale("log")
 xlim(1e-12, 1e3)
 ylim(1e-6, 5)
-title("Surface Mole Fractions vs. Time on Ag111@-1.0V")
+title("Surface Mole Fractions vs. Time on $model_name-1.0V")
 gcf()
 
 # %%
