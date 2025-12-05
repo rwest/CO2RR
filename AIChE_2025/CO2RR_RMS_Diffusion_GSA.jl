@@ -49,6 +49,27 @@ surfrxns = outdict["surface"]["Reactions"]
 interfacerxns = outdict[Set(["surface", "gas"])]["Reactions"]
 solv = outdict["Solvents"][1];
 
+ # %%
+ # name => (nominal, min, max)
+params_dict = Dict(
+    "CO2_conc" => (5.0e-3, 1e-5, 1e-2),
+    "pH" => (7.0, 5, 9),
+    "surface_potential" => (-0.614, -0.714, -0.514)
+)
+
+params_names = collect(keys(params_dict))
+nominal_params = [params_dict[name][1] for name in params_names]
+lower_bounds = [params_dict[name][2] for name in params_names]
+upper_bounds = [params_dict[name][3] for name in params_names]
+num_params = length(params_names)
+bounds = [[params_dict[name][2], params_dict[name][3]] for name in params_names]
+params_dict
+
+# %%
+for (i, name) in enumerate(params_names)
+    println("    $(name) = params[$i]")
+end
+
 # %%
 function run_co2_reduction_simulation(params::Vector{Float64})
     sitedensity = 2.294e-5; # Ag111 site density is 2.294e-9 mol/cm^2 or 2.294e-5 mol/m^2
