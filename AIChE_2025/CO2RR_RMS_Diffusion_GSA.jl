@@ -141,7 +141,52 @@ end
 sol, domainboundarylayer, domaincat, interfaces, p, diffusionlayer, V_res = run_co2_reduction_simulation(Float64[])
 
 # %%
+sol.t[end]
+
+# %%
 ssys = SystemSimulation(sol,(domainboundarylayer,domaincat,), interfaces, p);
+ssys
+
+# %%
+clf()
+plotrops(ssys,"O=CO",sol.t[end]) # "HCOOH"
+gcf()
+
+# %%
+sum(rops(ssys,"O=CO",sol.t[end]))
+
+# %%
+#species_id = "O=CO"; species_name = "HCOOH"
+#species_id = "CO"; species_name = "CO"
+species_id = "CCO"; species_name = "C2H5OH"
+clf()
+plotrops(ssys,species_id,sol.t[end]) # "HCOOH"
+display(gcf())
+total_rop = sum(rops(ssys,species_id,sol.t[end]))
+println("Total rate of production of $(species_name) produced: $(total_rop) mol")
+
+# %%
+function analyze_solution(sol, domainboundarylayer, domaincat, interfaces, p, diffusionlayer, V_res)
+    times = sol.t
+    ntime = length(times)
+    ssys = SystemSimulation(sol,(domainboundarylayer,domaincat,), interfaces, p);
+    ethanol_rate = sum(rops(ssys,"O=CO",sol.t[end]))
+    return ethanol_rate
+end
+
+
+# %%
+analyze_solution(sol, domainboundarylayer, domaincat, interfaces, p, diffusionlayer, V_res)
+
+# %%
+function run_and_analyze(params::Vector{Float64})
+    sol, domainboundarylayer, domaincat, interfaces, p, diffusionlayer, V_res = run_co2_reduction_simulation(params)
+    ethanol_rate = analyze_solution(sol, domainboundarylayer, domaincat, interfaces, p, diffusionlayer, V_res)
+    return ethanol_rate
+end
+
+
+# %%
 
 # %%
 """
